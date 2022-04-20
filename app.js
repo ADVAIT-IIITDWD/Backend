@@ -27,13 +27,21 @@ app.use(express.urlencoded({ extended: false }));
 
 app.post('/query_to_run', (req,res) =>{
     // console.log(req.body);
-    const {query} = req.body;
-    // let query = ``;
-    db.query(query,(err,result) =>{
-        if(err) throw err;
-        console.log(result);
-        res.json(result);
-    })
+    try {
+        const {query} = req.body;
+        // let query = ``;
+        db.query(query,(err,result) =>{
+            if(err) {
+                console.log(err);
+                res.json("error")
+            };
+            console.log(result);
+            res.json(result);
+        });
+    } catch (error) {
+        res.json("error")
+        console.log(error);
+    }
 });
 
 app.get('/', (req,res) =>{
