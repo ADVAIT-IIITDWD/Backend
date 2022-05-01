@@ -1,30 +1,26 @@
+/* LIBRARIES */
+
 const express = require('express');
 // const mysql = require('mysql');
 const db = require("./config/dbconnect");
 const cors = require("cors");
 
+/* INSTANCE */
 
-const PORT = process.env.PORT|| 5000;
 const app = express();
-app.use(cors());
-app.use(express.json());//convert in json
-app.use(express.urlencoded({ extended: false }));
 
-//Create Connection
+/* MIDDLEWARE */
+app.use(cors()); // for giving access to frontend
+app.use(express.json()); // convert in json
+app.use(express.urlencoded({ extended: false })); // encode the data coming from frontend
 
-//Connect
 
-// app.get('/connectdb', (re,res) =>{
-//     let query = 'CREATE DATABASE test';
-//     db.query(query,(err,result) =>{
-//         if(err){
-//             throw err;
-//         }
-//         console.log(result);
-//         res.send('Created database...');
-//     })
-// });
+/* VARIABLES */
+const PORT = process.env.PORT|| 5000;
 
+/* METHODS */
+
+// for requesting the server to run the inputed query
 app.post('/query_to_run', (req,res) =>{
     // console.log(req.body);
     try {
@@ -44,10 +40,16 @@ app.post('/query_to_run', (req,res) =>{
     }
 });
 
+// home route 
 app.get('/', (req,res) =>{
     res.send("Hello from the backend")
 });
 
+
+/* LISTNERS */
 app.listen(PORT, () =>{
+    console.log();
+    console.log("========================================");
     console.log(`Server is running at ${PORT}`);
+    console.log();
 });
